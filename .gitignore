@@ -1,0 +1,26 @@
+# Node.js
+node_modules/
+dist/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# TypeScript
+*.tsbuildinfo
+
+# Environment Variables
+.env
+
+# MacOS
+.DS_Store
+
+# Editor directories and files
+.idea/
+*.swp
+
+# Database
+*.sqlite
+*.db
+*.sql
