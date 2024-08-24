@@ -48,7 +48,7 @@ export const createActivity = (req: Request, res: Response) => {
 			return;
 		}
 		// Construct the response object dynamically
-		const response: { [key: string]: any } = { id: this.lastID };
+		const response: { [key: string]: any } = { activity_id: this.lastID };
 		keys.forEach((key, index) => {
 			response[key] = values[index];
 		});
