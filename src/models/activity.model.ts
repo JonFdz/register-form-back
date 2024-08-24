@@ -1,8 +1,9 @@
 export interface Activity {
-	name: string;
+	activity_id?: number;
+	activity_name: string;
 	instructor: string;
-	place: string;
+	place?: string;
 	day: string;
 	hour: string;
-	description: string;
+	description?: string;
 }
