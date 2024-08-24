@@ -6,9 +6,9 @@ const db = new sqlite3.Database('./database.db');
 
 db.serialize(() => {
 		db.run(`CREATE TABLE IF NOT EXISTS users (
-			identifier TEXT PRIMARY KEY,
-			name TEXT NOT NULL,
-			lastName TEXT NOT NULL,
+			user_id TEXT PRIMARY KEY,
+			user_name TEXT NOT NULL,
+			last_name TEXT NOT NULL,
 			gender TEXT NOT NULL,
 			birthdate TEXT NOT NULL,
 			birthplace TEXT NOT NULL,
@@ -18,8 +18,8 @@ db.serialize(() => {
 		)`);
 
 		db.run(`CREATE TABLE IF NOT EXISTS activities (
-			id INTEGER PRIMARY KEY AUTOINCREMENT,
-			name TEXT NOT NULL,
+			activity_id INTEGER PRIMARY KEY AUTOINCREMENT,
+			activity_name TEXT NOT NULL,
 			instructor TEXT NOT NULL,
 			place TEXT,
 			day TEXT NOT NULL,
@@ -28,19 +28,22 @@ db.serialize(() => {
 		)`);
 
 		db.run(`CREATE TABLE IF NOT EXISTS inscriptions (
-			id INTEGER PRIMARY KEY AUTOINCREMENT,
-			user TEXT,
-			activity1 INTEGER,
-			activity2 INTEGER,
-			activity3 INTEGER,
-			activity4 INTEGER,
-			activity5 INTEGER,
-			FOREIGN KEY(user) REFERENCES users(identifier),
-			FOREIGN KEY(activity1) REFERENCES activities(id),
-			FOREIGN KEY(activity2) REFERENCES activities(id),
-			FOREIGN KEY(activity3) REFERENCES activities(id),
-			FOREIGN KEY(activity4) REFERENCES activities(id),
-			FOREIGN KEY(activity5) REFERENCES activities(id)
+			inscription_id INTEGER PRIMARY KEY AUTOINCREMENT,
+			user_id TEXT NOT NULL,
+			activity1_id INTEGER NOT NULL,
+			activity2_id INTEGER,
+			activity3_id INTEGER,
+			activity4_id INTEGER,
+			activity5_id INTEGER,
+			fee INTEGER NOT NULL,
+			referred TEXT NOT NULL,
+			created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+			FOREIGN KEY(user_id) REFERENCES users(user_id),
+			FOREIGN KEY(activity1_id) REFERENCES activities(activity_id),
+			FOREIGN KEY(activity2_id) REFERENCES activities(activity_id),
+			FOREIGN KEY(activity3_id) REFERENCES activities(activity_id),
+			FOREIGN KEY(activity4_id) REFERENCES activities(activity_id),
+			FOREIGN KEY(activity5_id) REFERENCES activities(activity_id)
 		)`);
 });
 
