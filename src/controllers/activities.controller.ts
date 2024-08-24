@@ -14,7 +14,7 @@ export const getActivities = (req: Request, res: Response) => {
 
 export const getActivity = (req: Request, res: Response) => {
 	const id = req.params.id;
-	db.get("SELECT * FROM activities WHERE id = ?", [id], (err: any, activity: Activity) => {
+	db.get("SELECT * FROM activities WHERE activity_id = ?", [id], (err: any, activity: Activity) => {
 		if (err) {
 			res.status(500).json({ error: err.message });
 			return;
@@ -53,5 +53,42 @@ export const createActivity = (req: Request, res: Response) => {
 			response[key] = values[index];
 		});
 		res.status(201).json(response);
+	});
+};
+
+export const updateActivity = (req: Request, res: Response) => {
+	const id = req.params.id;
+	// Extract all fields from req.body
+	const updates = req.body as Partial<Activity>;
+	const updateKeys = Object.keys(updates).filter(key => key !== 'id'); // Exclude the id field from the update
+
+	if (updateKeys.length === 0) {
+		res.status(400).json({ error: 'No update fields provided' });
+		return;
+	}
+
+	// Construct the SQL query dynamically
+	const setClause = updateKeys.map(key => `${key} = ?`).join(', ');
+	const values = updateKeys.map(key => updates[key as keyof Partial<Activity>]);
+
+	const sql = `UPDATE activities SET ${setClause} WHERE activity_id = ?`;
+
+	db.run(sql, [...values, id], function (err) {
+		if (err) {
+			res.status(500).json({ error: err.message });
+			return;
+		}
+		res.json({ message: 'Activity updated successfully' });
+	});
+};
+
+export const deleteActivity = (req: Request, res: Response) => {
+	const id = req.params.id;
+	db.run('DELETE FROM activities WHERE activity_id = ?', [id], function (err) {
+		if (err) {
+			res.status(500).json({ error: err.message });
+			return;
+		}
+		res.json({ message: 'Activity deleted successfully' });
 	});
 };

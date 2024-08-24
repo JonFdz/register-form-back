@@ -14,7 +14,7 @@ export const getUsers = (req: Request, res: Response) => {
 
 export const getUser = (req: Request, res: Response) => {
 	const id = req.params.id;
-	db.get("SELECT * FROM users WHERE identifier = ?", [id], (err: any, user: User) => {
+	db.get("SELECT * FROM users WHERE user_id = ?", [id], (err: any, user: User) => {
 		if (err) {
 			res.status(500).json({ error: err.message });
 			return;
@@ -53,5 +53,42 @@ export const createUser = (req: Request, res: Response) => {
 			response[key] = values[index];
 		});
 		res.status(201).json(response);
+	});
+};
+
+export const updateUser = (req: Request, res: Response) => {
+	const id = req.params.id;
+	// Extract all fields from req.body
+	const updates = req.body as Partial<User>;
+	const updateKeys = Object.keys(updates).filter(key => key !== 'id'); // Exclude the id field from the update
+
+	if (updateKeys.length === 0) {
+		res.status(400).json({ error: 'No update fields provided' });
+		return;
+	}
+
+	// Construct the SQL query dynamically
+	const setClause = updateKeys.map(key => `${key} = ?`).join(', ');
+	const values = updateKeys.map(key => updates[key as keyof Partial<User>]);
+
+	const sql = `UPDATE users SET ${setClause} WHERE user_id = ?`;
+
+	db.run(sql, [...values, id], function (err) {
+		if (err) {
+			res.status(500).json({ error: err.message });
+			return;
+		}
+		res.json({ message: 'User updated successfully' });
+	});
+};
+
+export const deleteUser = (req: Request, res: Response) => {
+	const id = req.params.id;
+	db.run('DELETE FROM users WHERE user_id = ?', [id], function (err) {
+		if (err) {
+			res.status(500).json({ error: err.message });
+			return;
+		}
+		res.json({ message: 'User deleted successfully' });
 	});
 };

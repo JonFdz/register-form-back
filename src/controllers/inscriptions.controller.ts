@@ -123,3 +123,40 @@ export const createInscription = (req: Request, res: Response) => {
 		res.status(201).json(response);
 	});
 };
+
+export const updateInscription = (req: Request, res: Response) => {
+	const id = req.params.id;
+	// Extract all fields from req.body
+	const updates = req.body as Partial<Inscription>;
+	const updateKeys = Object.keys(updates).filter(key => key !== 'id'); // Exclude the id field from the update
+
+	if (updateKeys.length === 0) {
+		res.status(400).json({ error: 'No update fields provided' });
+		return;
+	}
+
+	// Construct the SQL query dynamically
+	const setClause = updateKeys.map(key => `${key} = ?`).join(', ');
+	const values = updateKeys.map(key => updates[key as keyof Partial<Inscription>]);
+
+	const sql = `UPDATE inscriptions SET ${setClause} WHERE inscription_id = ?`;
+
+	db.run(sql, [...values, id], function (err) {
+		if (err) {
+			res.status(500).json({ error: err.message });
+			return;
+		}
+		res.json({ message: 'Inscription updated successfully' });
+	});
+};
+
+export const deleteInscription = (req: Request, res: Response) => {
+	const id = req.params.id;
+	db.run('DELETE FROM inscriptions WHERE inscription_id = ?', [id], function (err) {
+		if (err) {
+			res.status(500).json({ error: err.message });
+			return;
+		}
+		res.json({ message: 'Inscription deleted successfully' });
+	});
+};
