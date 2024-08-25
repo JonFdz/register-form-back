@@ -14,7 +14,8 @@ db.serialize(() => {
 			birthplace TEXT NOT NULL,
 			phone INTEGER NOT NULL,
 			email TEXT NOT NULL,
-			abilities TEXT
+			abilities TEXT,
+			role TEXT
 		)`);
 
 		db.run(`CREATE TABLE IF NOT EXISTS activities (

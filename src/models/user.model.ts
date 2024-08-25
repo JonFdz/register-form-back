@@ -8,4 +8,5 @@ export interface User {
 	phone: number;
 	email?: string;
 	abilities?: string;
+	role?: string;
 }
