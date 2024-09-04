@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import db from '@database/db';
-import { Inscription } from '@models/inscription.model';
+import db from '../database/db';
+import { Inscription } from '../models/inscription.model';
 
 const sql = `
     SELECT

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getInscriptions, getInscription, createInscription, updateInscription, deleteInscription } from '@controllers/inscriptions.controller';
+import { getInscriptions, getInscription, createInscription, updateInscription, deleteInscription } from '../controllers/inscriptions.controller';
 
 const router = Router();
 

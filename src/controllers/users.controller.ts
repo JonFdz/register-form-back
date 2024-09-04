@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import db from '@database/db';
-import { User } from '@models/user.model';
+import db from '../database/db';
+import { User } from '../models/user.model';
 
 export const getUsers = (req: Request, res: Response) => {
     db.all("SELECT * FROM users", (err: any, users: User[]) => {

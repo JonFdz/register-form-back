@@ -1,11 +1,24 @@
+import path from 'path';
 import sqlite3 from 'sqlite3';
+import fs from 'fs';
 
 sqlite3.verbose();
 
-const db = new sqlite3.Database('./database.db');
+const dbFilePath = path.resolve(__dirname, '../../database.db');
+
+if (fs.existsSync(dbFilePath)) {
+	fs.chmodSync(dbFilePath, 0o664); // Permisos de lectura y escritura para el propietario y el grupo
+  }
+
+const db = new sqlite3.Database(dbFilePath, (err) => {
+	if (err) {
+		console.error(err.message);
+	}
+	console.log('Connected to the database.');
+});
 
 db.serialize(() => {
-		db.run(`CREATE TABLE IF NOT EXISTS users (
+	db.run(`CREATE TABLE IF NOT EXISTS users (
 			user_id TEXT PRIMARY KEY,
 			user_name TEXT NOT NULL,
 			last_name TEXT NOT NULL,
@@ -18,7 +31,7 @@ db.serialize(() => {
 			role TEXT
 		)`);
 
-		db.run(`CREATE TABLE IF NOT EXISTS activities (
+	db.run(`CREATE TABLE IF NOT EXISTS activities (
 			activity_id INTEGER PRIMARY KEY AUTOINCREMENT,
 			activity_name TEXT NOT NULL,
 			instructor TEXT NOT NULL,
@@ -28,7 +41,7 @@ db.serialize(() => {
 			description TEXT
 		)`);
 
-		db.run(`CREATE TABLE IF NOT EXISTS inscriptions (
+	db.run(`CREATE TABLE IF NOT EXISTS inscriptions (
 			inscription_id INTEGER PRIMARY KEY AUTOINCREMENT,
 			user_id TEXT NOT NULL,
 			activity1_id INTEGER NOT NULL,

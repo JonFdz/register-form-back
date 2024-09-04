@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import db from '@database/db';
-import { Activity } from '@models/activity.model';
+import db from '../database/db';
+import { Activity } from '../models/activity.model';
 
 export const getActivities = (req: Request, res: Response) => {
     db.all("SELECT * FROM activities", (err: any, activities: Activity[]) => {
