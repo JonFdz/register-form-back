@@ -55,9 +55,7 @@ db.serialize(() => {
 			FOREIGN KEY(user_id) REFERENCES users(user_id),
 			FOREIGN KEY(activity1_id) REFERENCES activities(activity_id),
 			FOREIGN KEY(activity2_id) REFERENCES activities(activity_id),
-			FOREIGN KEY(activity3_id) REFERENCES activities(activity_id),
-			FOREIGN KEY(activity4_id) REFERENCES activities(activity_id),
-			FOREIGN KEY(activity5_id) REFERENCES activities(activity_id)
+			FOREIGN KEY(activity3_id) REFERENCES activities(activity_id)
 		)`);
 });
 

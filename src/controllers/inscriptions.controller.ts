@@ -35,20 +35,6 @@ const sql = `
         a3.day AS activity3_day,
         a3.hour AS activity3_hour,
         a3.description AS activity3_description,
-        a4.activity_id AS activity4_id,
-        a4.activity_name AS activity4_name,
-        a4.instructor AS activity4_instructor,
-        a4.place AS activity4_place,
-        a4.day AS activity4_day,
-        a4.hour AS activity4_hour,
-        a4.description AS activity4_description,
-        a5.activity_id AS activity5_id,
-        a5.activity_name AS activity5_name,
-        a5.instructor AS activity5_instructor,
-        a5.place AS activity5_place,
-        a5.day AS activity5_day,
-        a5.hour AS activity5_hour,
-        a5.description AS activity5_description,
         i.fee,
         i.referred,
         i.created_at
@@ -57,13 +43,9 @@ const sql = `
     LEFT JOIN activities a1 ON i.activity1_id = a1.activity_id
     LEFT JOIN activities a2 ON i.activity2_id = a2.activity_id
     LEFT JOIN activities a3 ON i.activity3_id = a3.activity_id
-    LEFT JOIN activities a4 ON i.activity4_id = a4.activity_id
-    LEFT JOIN activities a5 ON i.activity5_id = a5.activity_id
 	WHERE a1.activity_id IS NOT NULL
     OR a2.activity_id IS NOT NULL
     OR a3.activity_id IS NOT NULL
-    OR a4.activity_id IS NOT NULL
-    OR a5.activity_id IS NOT NULL
 `;
 
 export const getInscriptions = (req: Request, res: Response) => {
