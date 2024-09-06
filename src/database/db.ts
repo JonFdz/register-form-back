@@ -35,9 +35,9 @@ db.serialize(() => {
 			activity_id INTEGER PRIMARY KEY AUTOINCREMENT,
 			activity_name TEXT NOT NULL,
 			instructor TEXT NOT NULL,
-			place TEXT,
 			day TEXT NOT NULL,
 			hour TEXT NOT NULL,
+			category TEXT,
 			description TEXT
 		)`);
 
