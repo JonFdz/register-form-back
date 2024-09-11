@@ -47,8 +47,6 @@ db.serialize(() => {
 			activity1_id INTEGER NOT NULL,
 			activity2_id INTEGER,
 			activity3_id INTEGER,
-			activity4_id INTEGER,
-			activity5_id INTEGER,
 			fee INTEGER NOT NULL,
 			referred TEXT NOT NULL,
 			created_at TEXT DEFAULT CURRENT_TIMESTAMP,
